@@ -1,0 +1,255 @@
+@import "bootstrap.css";
+
+/* Reset CSS */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --main-bg-color1: #caf0f8;
+    --main-bg-color2: #00b4d8;
+    --main-text-color: #03045e;
+}
+
+
+html{
+    font-family: 'Raleway', 'Quicksand', sans-serif;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+
+
+/* Preloader CSS */
+  #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: #fff;
+      z-index: 100;
+  }
+  #loader {
+      display: block;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--main-text-color);
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+  }
+  #loader:before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--main-bg-color2);
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite;
+  }
+  #loader:after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--main-bg-color1);
+      -webkit-animation: spin 1.5s linear infinite;
+      animation: spin 1.5s linear infinite;
+  }
+  @-webkit-keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+  @keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+
+/* Preloader CSS */
+
+/* Body CSS */
+.header {
+    height: 160px;
+    /* width: 100%; */
+    background-image: linear-gradient(to bottom right, var(--bs-blue), var(--bs-cyan));
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .logo{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    margin-left: 20px;
+}
+
+.header .logo img{
+    width: 100%;
+}
+
+.header .title{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30%;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--main-text-color);
+}
+
+.header .auth{
+    position: absolute;
+    right: 0;
+    bottom: 30%;
+    margin-right: 30px;
+}
+
+.header .auth a{
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--main-text-color);
+    line-height: 1.5;
+    border-right: 2px solid #fff;
+    padding: 0 10px;
+}
+
+.header .auth>a{
+    text-decoration: none;
+    display: inline block;
+}
+
+.header .auth a:last-child{
+    border: none;
+}
+
+.header .auth a:hover{
+    opacity: 0.7;
+}
+.header .auth .user{
+    border: 3px solid var(--main-text-color);
+    border-radius: 50%;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.header .auth .user>img{
+    width: 100% ;
+    height: auto;
+}
+
+.header .auth .user i{
+    min-width: 1.5rem;
+}
+.content{
+    position: relative;
+    margin-top: 160px;
+    padding-top: 8px;
+    min-height: 45vh;
+}
+
+.notification{
+    /* max-width: 600px; */
+    border: 1px solid var(--main-bg-color2);
+    border-radius: 4px;
+}
+
+.notification .noti-header{
+    text-align: center;
+    color: var(--main-text-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: var(--main-bg-color2);
+}
+
+.notification .noti-body{
+    width: 100%;
+}
+
+.notification .noti-body ol{
+    list-style: decimal;
+    list-style-position: inside;
+}
+
+.notification .noti-body li{
+    display: list-item;
+    padding: 10px 10px 0;
+    color: var(--main-text-color);
+}
+
+.notification .noti-body li:last-child{
+    padding: 10px;
+}
+
+.notification .noti-body a{
+    color: var(--main-text-color);
+}
+
+.notification .noti-body a:hover{
+    color: var(--main-bg-color2);
+}
+
+.carousel .carousel-inner .carousel-item{
+    height: 32rem;
+    background-color: #000;
+    color: #fff;
+}
+
+
+.overlay-image{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+footer{
+    background-image: linear-gradient(to top left , var(--bs-blue), var(--bs-cyan));
+}
+
+footer a{
+    text-decoration: none;
+    color: var(--main-text-color);
+}
+
+footer a:hover{
+    color: #fff;
+}
