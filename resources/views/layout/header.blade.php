@@ -1,7 +1,7 @@
 <div class="container-fluid header">
     <div class="logo">
-        <a href="#">
-            <img src="./assets/img/logo1.png" alt="">
+        <a href="/">
+            <img src="{{ url('') }}/assets/img/logo1.png" alt="">
 
         </a>
     </div>
@@ -11,8 +11,8 @@
         <a href="#">Đăng ký</a> -->
 
         <div class="dropdown user">
-            <img class="rounded-circle align-middle" src="./assets/img/default-user-image.png" role="button"
-                id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" alt="User picture">
+            <img class="rounded-circle align-middle" src="{{ url('') }}/assets/img/default-user-image.png"
+                role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" alt="User picture">
 
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">

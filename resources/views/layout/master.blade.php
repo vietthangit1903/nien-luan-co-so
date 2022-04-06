@@ -34,6 +34,7 @@
     <!-- Footer -->
 
     <script src="./assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
 
         var loader = document.querySelector('#preloader');

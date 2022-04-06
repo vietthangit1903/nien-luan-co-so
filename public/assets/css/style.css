@@ -106,7 +106,7 @@ html{
     background-image: linear-gradient(to bottom right, var(--bs-blue), var(--bs-cyan));
     position: fixed;
     top: 0;
-    z-index: 1000;
+    z-index: 150;
 }
 
 .header .logo{
