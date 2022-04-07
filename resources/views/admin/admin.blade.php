@@ -31,7 +31,7 @@
     <!-- Begin content -->
     <div class="container-fluid content">
         <!-- Sidebar begin -->
-        @include('layout.sidebar')
+        @include('admin.sidebar')
         <!-- Sidebar end -->
         <!-- Dashboard begin -->
         <div class="col-10 dashboard ">
@@ -47,7 +47,8 @@
     </script>
     <script src="{{  url('') }}/assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('admin.delete-script')
     <script>
         var loader = document.querySelector('#preloader');
         window.addEventListener('load', function() {
@@ -55,6 +56,7 @@
         })
     </script>
     @include('layout.notification')
+    @yield('custom_js')
 </body>
 
 </html>

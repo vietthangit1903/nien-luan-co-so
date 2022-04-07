@@ -25,4 +25,6 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/subject/edit', [SubjectController::class, 'ShowEditSubject'])->name('admin.showEditSubject');
     Route::post('/subject/edit', [SubjectController::class, 'EditSubject'])->name('admin.editSubject');
+
+    Route::post('/subject/delete', [SubjectController::class, 'DeleteSubject'])->name('admin.deleteSubject');
 });
