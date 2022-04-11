@@ -17,7 +17,7 @@
     function showConfirm(e) {
         Swal.fire({
             title: 'Bạn chắc chắn?',
-            html: "<p>Xóa <b>" + $(e).data('name') + "</b></p> <p>Bạn sẽ không thể hoàn tác</p>",
+            html: "<p>Xóa <b>" + $(e).data('name') + "</b> có <b>ID = "+ $(e).data('id') +"</b></p> <p>Bạn sẽ không thể hoàn tác</p>",
             icon: 'warning',
             showCancelButton: true,
             cancelButtonColor: '#dc3545',

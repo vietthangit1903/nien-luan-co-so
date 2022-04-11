@@ -19,7 +19,7 @@
                 <td>
                     <a href="/admin/subject/edit?id={{ $item->id }}" class="me-3"><i
                             class="fa-solid fa-pen"></i></a>
-                    <a class="delete" href="{{ url('') }}/admin/subject/delete"
+                    <a class="delete" href="{{ route('admin.deleteSubject')}}"
                         data-id="{{ $item->id }}" title="Xóa {{ $item->name }}" data-name="{{ $item->name }}"
                         data-csrf="{{csrf_token()}}" data-return-url="{{ route('admin.showSubject') }}">
                         <i class="fa-solid fa-trash-can"></i>
@@ -30,3 +30,7 @@
 
     </tbody>
 </table>
+
+<!-- Pagination -->
+{{ $subjects->links() }}
+<!-- End pagination -->

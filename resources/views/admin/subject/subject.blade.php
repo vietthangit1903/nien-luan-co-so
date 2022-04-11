@@ -6,22 +6,30 @@
     <!-- Simple form -->
     <div class="row justify-content-center">
         <div class="col-6 justify-content-center">
-            @isset($errors)
-                @foreach ($errors as $error)
+            @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                        <div class="row">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ $error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        @endforeach
+            @endif
+            @isset($saveError)
                     <div class="row">
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ $error }}
+                            {{ $saveError }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
-                @endforeach
             @endisset
             <form action="{{ isset($editSubject) ? route('admin.editSubject') : route('admin.addSubject') }}"
                 method="POST">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Thêm bộ môn mới" aria-label="Subject's name"
-                        aria-describedby="button-addon2" name="subject_name"
-                        value="{{ $editSubject->name ?? old('subject_name') }}">
+                    <input type="text" class="form-control" placeholder="Thêm bộ môn mới" aria-label="Tên bộ môn"
+                        aria-describedby="button-addon2" name="name"
+                        value="{{ $editSubject->name ?? old('name') }}">
                     @isset($editSubject)
                         <input type="hidden" name="id" value="{{ $editSubject->id }}">
                     @endisset
@@ -32,16 +40,18 @@
             </form>
         </div>
     </div>
+    @isset($editSubject)
+        <div class="col mb-3 action">
+            <button type="button" class="btn btn-primary"><a href="{{ route('admin.showSubject') }}">Thêm bộ môn <i
+                        class="fa-solid fa-plus"></i></a></button>
+        </div>
+    @endisset
 
     <!-- Table -->
     <div class="list">
-        @include('admin.table')
+        @include('admin.subject.subject-table')
     </div>
-    
     <!-- End table -->
 
 
-    <!-- Pagination -->
-    {{ $subjects->links() }}
-    <!-- End pagination -->
 @endsection

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subject;
+use App\Http\Requests\CreateSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
+use App\Models\Admin\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class SubjectController extends Controller
 {
@@ -18,37 +21,33 @@ class SubjectController extends Controller
             'subjects' => $subjects
         ];
         if (request()->ajax()) {
-            $html = view('admin.table', ['subjects' => $subjects])->render();
+            $html = view('admin.subject.subject-table', ['subjects' => $subjects])->render();
 
             return response()->json(['data' => $html]);
         }
 
-        return view('admin.dashboard', $data);
+        return view('admin.subject.subject', $data);
     }
 
-    public function AddSubject(Request $request)
+    public function AddSubject(CreateSubjectRequest $request)
     {
-        $request->flash();
-        $input = $request->all();
+        $saveError = null;
         $subject = new Subject();
-        $subject->name = $input['subject_name'];
-
-        if ($subject->Validate($input['subject_name'])) {
-            if ($subject->save()) {
-                Session::flash('success', 'Chúc mừng bạn đã thêm bộ môn thành công!');
-                return $this->showSubject();
-            } else
-                $subject->errors['failed'] = 'Đã có lỗi xảy ra trong quá trình lưu';
+        $subject->name = $request->validated()['name'];
+        if ($subject->save()) {
+            Session::flash('success', 'Chúc mừng bạn đã thêm bộ môn thành công!');
+        } else {
+            $saveError = 'Đã có lỗi xảy ra trong quá trình lưu';
+            $request->flash();
         }
 
         $subjects = Subject::paginate(10);
 
         $data = [
             'subjects' => $subjects,
-            'errors' => $subject->errors
+            'saveError' => $saveError
         ];
-        // dd($data);
-        return view('admin.dashboard', $data);
+        return view('admin.subject.subject', $data);
     }
 
     public function ShowEditSubject(Request $request)
@@ -63,41 +62,45 @@ class SubjectController extends Controller
             'editSubject' => $editSubject
         ];
         if ($editSubject)
-            return view('admin.dashboard', $data);
+            return view('admin.subject.subject', $data);
 
         $data = [
             'subjects' => $subjects,
             'errors' => ['notExist' => 'Bộ môn không tồn tại']
         ];
-        return view('admin.dashboard', $data);
+        return view('admin.subject.subject', $data);
     }
 
-    public function EditSubject(Request $request){
-        $request->flash();
-        $input = $request->all();
-
+    public function EditSubject(UpdateSubjectRequest $request)
+    {
+        $saveError = null;
+        $input = $request->validated();
         $id = $input['id'];
         $subject = Subject::find($id);
-        $subject->name = $input['subject_name'];
+        $subject->name = $input['name'];
 
-        if ($subject->Validate($input['subject_name'])) {
-            if ($subject->save()) {
-                Session::flash('success', 'Chúc mừng bạn đã cập nhật bộ môn thành công!');
-                return $this->showSubject();
-            } else
-                $subject->errors['failed'] = 'Đã có lỗi xảy ra trong quá trình lưu';
+        if ($subject->save()) {
+            Session::flash('success', 'Chúc mừng bạn đã cập nhật bộ môn thành công!');
+            return redirect(route('admin.showSubject'));
+        } else {
+            $saveError = 'Đã có lỗi xảy ra trong quá trình lưu';
+            $request->flash();
         }
+
 
         $subjects = Subject::paginate(15);
 
         $data = [
+            'editSubject' => $subject,
             'subjects' => $subjects,
-            'errors' => $subject->errors
+            'saveError' => $saveError
+
         ];
-        return view('admin.dashboard', $data);
+        return view('admin.subject.subject', $data);
     }
 
-    public function DeleteSubject(Request $request){
+    public function DeleteSubject(Request $request)
+    {
         $id = $request->input('id');
         $subject = Subject::find($id);
 

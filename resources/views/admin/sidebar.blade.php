@@ -7,7 +7,7 @@
             </button>
             <div class="collapse sidebar-detail" id="home-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small w-100">
-                    <li><a href="#" class="link-dark rounded">Danh sách giảng viên</a></li>
+                    <li><a href="{{ route('admin.showLectureList') }}" class="link-dark rounded">Danh sách giảng viên</a></li>
                     <li><a href="#" class="link-dark rounded">Phân quyền giảng viên</a></li>
                 </ul>
             </div>
@@ -26,7 +26,10 @@
             </div>
         </li>
         <li class="mb-1">
-            <a class="btn sidebar-heading w-100 text-start" href="#">Quản lý bộ môn</a>
+            <a class="btn sidebar-heading w-100 text-start" href="{{route('admin.showSubject')}}">Quản lý bộ môn</a>
+        </li>
+        <li class="mb-1">
+            <a class="btn sidebar-heading w-100 text-start" href="{{route('admin.showRole')}}">Quản lý các quyền</a>
         </li>
         <li class="mb-1">
             <a class="btn sidebar-heading w-100 text-start" href="#">Quản lý sinh viên</a>

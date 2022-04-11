@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\LectureController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -20,6 +22,8 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->group(function () {
+    Route::view('/', 'admin.admin');
+    // Subject Route
     Route::get('/subject', [SubjectController::class, 'ShowSubject'])->name('admin.showSubject');
     Route::post('/subject', [SubjectController::class, 'AddSubject'])->name('admin.addSubject');
     
@@ -27,4 +31,18 @@ Route::prefix('admin')->group(function () {
     Route::post('/subject/edit', [SubjectController::class, 'EditSubject'])->name('admin.editSubject');
 
     Route::post('/subject/delete', [SubjectController::class, 'DeleteSubject'])->name('admin.deleteSubject');
+
+    // Role Route
+    Route::get('/role', [RoleController::class, 'ShowRole'])->name('admin.showRole');
+    Route::post('/role', [RoleController::class, 'AddRole'])->name('admin.addRole');
+
+    Route::get('/role/edit', [RoleController::class, 'ShowEditRole'])->name('admin.showEditRole');
+    Route::post('/role/edit', [RoleController::class, 'EditRole'])->name('admin.editRole');
+
+    Route::post('/role/delete', [RoleController::class, 'DeleteRole'])->name('admin.deleteRole');
+
+
+    // Lecture Route
+    Route::get('/lecture', [LectureController::class, 'ShowLectureList'])->name('admin.showLectureList');
+    Route::get('/lecture/create', [LectureController::class, 'showCreateLecture'])->name('admin.createLecture');
 });
