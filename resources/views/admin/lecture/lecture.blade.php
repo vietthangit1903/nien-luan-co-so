@@ -6,7 +6,7 @@
 
     <div class="col mb-3 action">
         <button type="button" class="btn btn-primary">
-            <a href="{{ route('admin.createLecture') }}">Thêm giảng viên <i class="fa-solid fa-plus"></i></a>
+            <a href="{{ route('admin.createLectureView') }}">Thêm giảng viên <i class="fa-solid fa-plus"></i></a>
         </button>
     </div>
     <!-- Table -->

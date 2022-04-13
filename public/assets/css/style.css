@@ -241,6 +241,11 @@ html{
     opacity: 0.8;
 }
 
+.action a{
+    text-decoration: none;
+    color: #fff;
+}
+
 footer{
     background-image: linear-gradient(to top left , var(--bs-blue), var(--bs-cyan));
 }

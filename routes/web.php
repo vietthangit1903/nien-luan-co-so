@@ -44,5 +44,10 @@ Route::prefix('admin')->group(function () {
 
     // Lecture Route
     Route::get('/lecture', [LectureController::class, 'ShowLectureList'])->name('admin.showLectureList');
-    Route::get('/lecture/create', [LectureController::class, 'showCreateLecture'])->name('admin.createLecture');
+    Route::get('/lecture/create', [LectureController::class, 'ShowCreateLecture'])->name('admin.createLectureView');
+    Route::post('/lecture/create', [LectureController::class, 'CreateLecture'])->name('admin.createLecture');
+    Route::get('/lecture/edit', [LectureController::class, 'UpdateLectureInfoView'])->name('admin.updateLectureView');
+    Route::post('/lecture/edit', [LectureController::class, 'UpdateLecture'])->name('admin.updateLecture');
+    Route::post('/lecture/delete', [LectureController::class, 'DeleteLecture'])->name('admin.deleteLecture');
+
 });

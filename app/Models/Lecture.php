@@ -18,7 +18,7 @@ class Lecture extends Authenticatable
     protected $guarded = 'lecture';
 
     protected $fillable = [
-        'fullName', 'email', 'password', 'dateOfBirth'
+        'fullName', 'email', 'dateOfBirth'
     ];
 
     protected $hidden = [

@@ -13,58 +13,30 @@
                             </div>
                         </div>
                     @endisset
-                    <div class="register-form">
-                        <form class="row g-3 needs-validation" method="POST" action="{{ route('admin.createLecture') }}" id="form_register" novalidate>
+                    <div class="update-form">
+                        <form class="row g-3 needs-validation" method="POST" action="{{ route('admin.updateLecture') }}" id="form_update" novalidate>
                             <div class="title">
-                                <h3 class="text-center">Tạo giảng viên mới</h3>
+                                <h3 class="text-center">Chỉnh sửa thông tin giảng viên</h3>
                             </div>
                             <div class="col-5 mb-3 action">
                                 <button type="button" class="btn btn-primary">
-                                    <a href="{{ route('admin.showLectureList') }}">Xem danh sách giảng viên <i class="fa-solid fa-list"></i></a>
+                                    <a href="{{ route('admin.showLectureList') }}">Xem danh sách giảng viên <i
+                                            class="fa-solid fa-list"></i></a>
                                 </button>
                             </div>
                             @csrf
-                            <div class="form-floating mb-3">
-                                <input class="form-control @error('fullName') is-invalid @enderror" name="fullName"
-                                    type="text" id="fullName" placeholder="Nhập họ và tên"
-                                    value="{{ old('fullName') }}" />
-                                <label for="fullName">Họ tên</label>
-                                <div class="form-message  @error('fullName') invalid-feedback @enderror">
-                                    @error('fullName')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                            </div>
+                            <h5>Họ và tên: <b>{{ $lecture->fullName }}</b></h5>
+                            <h5>Email: <b>{{ $lecture->email }}</b></h5>
 
-                            <div class="form-floating mb-3">
-                                <input class="form-control @error('email') is-invalid @enderror" name="email" type="email"
-                                    id="email" placeholder="Nhập email" value="{{ old('email') }}" />
-                                <label for="email">Email</label>
-                                <div class="form-message  @error('email') invalid-feedback @enderror">
-                                    @error('email')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <input class="form-control @error('dateOfBirth') is-invalid @enderror" name="dateOfBirth"
-                                    type="date" id="dateOfBirth" placeholder="Nhập ngày sinh"
-                                    value="{{ old('dateOfBirth') }}" />
-                                <label for="dateOfBirth">Ngày sinh</label>
-                                <div class="form-message  @error('dateOfBirth') invalid-feedback @enderror">
-                                    @error('dateOfBirth')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                            </div>
+                            <input type="hidden" name="id" value="{{ $lecture->id }}">
 
                             <div class="form-floating mb-3">
                                 <select name="subject" id="subject"
                                     class="form-control @error('subject') is-invalid @enderror">
-                                    <option value="" selected>Chọn bộ môn</option>
                                     @foreach ($subjects as $subject)
-                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        <option value="{{ $subject->id }}"
+                                            {{ $lecture->subject_id == $subject->id ? 'selected' : '' }}>
+                                            {{ $subject->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="subject">Bộ môn</label>
@@ -78,9 +50,10 @@
                             <div class="form-floating mb-3">
                                 <select name="academic" id="academic"
                                     class="form-control @error('academic') is-invalid @enderror">
-                                    <option value="" selected>Chọn học hàm</option>
                                     @foreach ($academics as $academic)
-                                        <option value="{{ $academic->id }}">{{ $academic->name }}</option>
+                                        <option value="{{ $academic->id }}"
+                                            {{ $lecture->academic_id == $academic->id ? 'selected' : '' }}>
+                                            {{ $academic->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="academic">Học hàm</label>
@@ -94,9 +67,10 @@
                             <div class="form-floating mb-3">
                                 <select name="position" id="position"
                                     class="form-control @error('position') is-invalid @enderror">
-                                    <option value="" selected>Chọn chức vụ</option>
                                     @foreach ($positions as $position)
-                                        <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                        <option value="{{ $position->id }}"
+                                            {{ $lecture->position_id == $position->id ? 'selected' : '' }}>
+                                            {{ $position->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="position">Chức vụ</label>
@@ -107,9 +81,25 @@
                                 </div>
                             </div>
 
+                            <div class="form-floating mb-3">
+                                <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}"
+                                            {{ $lecture->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <label for="role">Phân quyền</label>
+                                <div class="form-message @error('role') invalid-feedback @enderror">
+                                    @error('role')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+
 
                             <div class="button">
-                                <button class="btn btn-primary w-100" type="submit">Tạo giảng viên mới</button>
+                                <button class="btn btn-primary w-100" type="submit">Cập nhật thông tin giảng viên</button>
                             </div>
                         </form>
                     </div>
@@ -123,21 +113,16 @@
     <script src="{{ url('') }}/assets/js/validator.js"></script>
     <script>
         Validator({
-            form: '#form_register',
+            form: '#form_update',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#fullName', 'Vui lòng nhập họ và tên'),
-
-                Validator.isRequired('#email', 'Vui lòng nhập email'),
-                Validator.isEmail('#email', 'Email sai định dạng'),
-
-                Validator.isDate('#dateOfBirth', 'Sai định dạng ngày tháng năm sinh'),
-
                 Validator.isRequired('#subject', 'Vui lòng chọn bộ môn'),
 
                 Validator.isRequired('#academic', 'Vui lòng chọn học hàm'),
 
-                Validator.isRequired('#position', 'Vui lòng chọn chức vụ')
+                Validator.isRequired('#position', 'Vui lòng chọn chức vụ'),
+
+                Validator.isRequired('#role', 'Vui lòng chọn phân quyền')
             ]
         });
     </script>
