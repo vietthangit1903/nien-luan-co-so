@@ -120,7 +120,6 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ url('') }}/assets/js/validator.js"></script>
     <script>
         Validator({
             form: '#form_register',

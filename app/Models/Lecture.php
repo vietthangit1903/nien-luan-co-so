@@ -15,7 +15,7 @@ class Lecture extends Authenticatable
 
     protected $table = 'lectures';
 
-    protected $guarded = 'lecture';
+    protected $guard = 'lecture';
 
     protected $fillable = [
         'fullName', 'email', 'dateOfBirth'

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LectureController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Auth\LectureAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 /*
@@ -50,4 +51,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/lecture/edit', [LectureController::class, 'UpdateLecture'])->name('admin.updateLecture');
     Route::post('/lecture/delete', [LectureController::class, 'DeleteLecture'])->name('admin.deleteLecture');
 
+});
+
+Route::view('/lecture/login', 'lecture.lectureLogin')->name('LectureLoginView');
+Route::post('/lecture/login', [LectureAuthController::class, 'Login'])->name('LectureLogin');
+Route::post('/lecture/logout', [LectureAuthController::class, 'Logout'])->name('LectureLogout');
+
+Route::prefix('lecture')->middleware('auth:lecture')->group(function(){
+    Route::view('/profile', 'lecture.lectureProfile')->name('LectureProfile');
 });
