@@ -28,13 +28,14 @@ $lecture = auth('lecture')->user();
                 <div class="profile-content mb-3">
                     <ul class="profile-detail">
                         <li><span class="profile-label">Email: </span> {{ $lecture->email }}</li>
+                        <li><span class="profile-label">Ngày sinh: </span> {{ date('d/m/Y', strtotime($lecture->dateOfBirth)) }}</li>
                         <li><span class="profile-label">Học hàm: </span> {{ $lecture->academic->name }}</li>
                         <li><span class="profile-label">Chức vụ: </span> {{ $lecture->position->name }}</li>
                     </ul>
                 </div>
 
                 <div class="button">
-                    <a class="btn btn-primary w-50" href="#" >Cập nhật thông tin giảng viên </a>
+                    <a class="btn btn-primary w-50" href="{{ route('LectureUpdateProfile') }}" >Cập nhật thông tin giảng viên </a>
                 </div>
 
             </div>

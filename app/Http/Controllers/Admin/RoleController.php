@@ -119,7 +119,7 @@ class RoleController extends Controller
                             'message' => $role->name . ' đã được xóa thành công.'
                         ],
                         Response::HTTP_OK
-                    );
+                    );  
                 } else {
                     return response()->json(
                         [

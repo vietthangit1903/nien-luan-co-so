@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class LectureController extends Controller
+class AdminLectureController extends Controller
 {
     public function ShowLectureList()
     {

@@ -6,7 +6,11 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
                     <div class="register-form">
-                        <form class="row g-3 needs-validation" method="POST" action="{{ route('LectureLogin') }}" id="lecture_login_form" novalidate>
+                        @isset($url)
+                            <form class="row g-3 needs-validation" method="POST" action="{{ route('LectureLogin') }}" id="login_form" novalidate>
+                        @else
+                        <form class="row g-3 needs-validation" method="POST" action="#" id="login_form" novalidate>
+                        @endisset
                             <div class="title">
                                 <h3 class="text-center">Đăng nhập</h3>
                                 <p class="text-center">
@@ -58,7 +62,7 @@
 @section('custom_js')
     <script>
         Validator({
-            form: '#lecture_login_form',
+            form: '#login_form',
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#email', 'Vui lòng nhập email'),

@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\LectureController;
+use App\Http\Controllers\Admin\AdminLectureController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Auth\LectureAuthController;
+use App\Http\Controllers\LectureController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +27,7 @@ Route::prefix('admin')->group(function () {
     // Subject Route
     Route::get('/subject', [SubjectController::class, 'ShowSubject'])->name('admin.showSubject');
     Route::post('/subject', [SubjectController::class, 'AddSubject'])->name('admin.addSubject');
-    
+
     Route::get('/subject/edit', [SubjectController::class, 'ShowEditSubject'])->name('admin.showEditSubject');
     Route::post('/subject/edit', [SubjectController::class, 'EditSubject'])->name('admin.editSubject');
 
@@ -44,19 +44,23 @@ Route::prefix('admin')->group(function () {
 
 
     // Lecture Route
-    Route::get('/lecture', [LectureController::class, 'ShowLectureList'])->name('admin.showLectureList');
-    Route::get('/lecture/create', [LectureController::class, 'ShowCreateLecture'])->name('admin.createLectureView');
-    Route::post('/lecture/create', [LectureController::class, 'CreateLecture'])->name('admin.createLecture');
-    Route::get('/lecture/edit', [LectureController::class, 'UpdateLectureInfoView'])->name('admin.updateLectureView');
-    Route::post('/lecture/edit', [LectureController::class, 'UpdateLecture'])->name('admin.updateLecture');
-    Route::post('/lecture/delete', [LectureController::class, 'DeleteLecture'])->name('admin.deleteLecture');
-
+    Route::get('/lecture', [AdminLectureController::class, 'ShowLectureList'])->name('admin.showLectureList');
+    Route::get('/lecture/create', [AdminLectureController::class, 'ShowCreateLecture'])->name('admin.createLectureView');
+    Route::post('/lecture/create', [AdminLectureController::class, 'CreateLecture'])->name('admin.createLecture');
+    Route::get('/lecture/edit', [AdminLectureController::class, 'UpdateLectureInfoView'])->name('admin.updateLectureView');
+    Route::post('/lecture/edit', [AdminLectureController::class, 'UpdateLecture'])->name('admin.updateLecture');
+    Route::post('/lecture/delete', [AdminLectureController::class, 'DeleteLecture'])->name('admin.deleteLecture');
 });
 
-Route::view('/lecture/login', 'lecture.lectureLogin')->name('LectureLoginView');
+Route::get('/lecture/login', [LectureAuthController::class, 'ShowLoginForm'])->name('LectureLoginView');
 Route::post('/lecture/login', [LectureAuthController::class, 'Login'])->name('LectureLogin');
-Route::post('/lecture/logout', [LectureAuthController::class, 'Logout'])->name('LectureLogout');
 
-Route::prefix('lecture')->middleware('auth:lecture')->group(function(){
+Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
+    Route::post('/logout', [LectureAuthController::class, 'Logout'])->name('LectureLogout');
+    Route::get('/change_password', [LectureAuthController::class, 'ShowChangePassword'])->name('LectureChangePassword');
+    Route::post('/change_password', [LectureAuthController::class, 'ChangePassword']);
+
     Route::view('/profile', 'lecture.lectureProfile')->name('LectureProfile');
+    Route::view('/profile/update', 'lecture.lectureUpdateProfile')->name('LectureUpdateProfile');
+    Route::post('/profile/update', [LectureController::class, 'UpdateLecture']);
 });

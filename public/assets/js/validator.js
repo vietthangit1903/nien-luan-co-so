@@ -109,7 +109,7 @@ Validator.isEmail = function (selector, message = 'Email không đúng định d
     };
 };
 
-Validator.isPassword = function (selector, message = 'Mật khẩu phải chứa chữ cái IN HOA, số và ký tự đặc biệt') {
+Validator.isPassword = function (selector, message = 'Mật khẩu phải chứa chữ cái IN HOA, số, ký tự đặc biệt và tối thiểu 8 ký tự') {
     return {
         selector: selector,
         test: function (value) {
