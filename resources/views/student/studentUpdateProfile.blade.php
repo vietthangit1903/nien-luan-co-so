@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @php
-$lecture = auth('lecture')->user();
+$student = auth()->user();
 @endphp
 
 @section('content')
@@ -18,19 +18,19 @@ $lecture = auth('lecture')->user();
                         </div>
                     @endisset
                     <div class="update-form">
-                        <form class="row g-3 needs-validation" method="POST" action="{{ route('LectureUpdateProfile') }}" id="form_update" novalidate>
+                        <form class="row g-3 needs-validation" method="POST" action="{{ route('StudentUpdateProfile') }}" id="form_update" novalidate>
                             <div class="title">
-                                <h3 class="text-center">Chỉnh sửa thông tin giảng viên</h3>
+                                <h3 class="text-center">Chỉnh sửa thông tin sinh viên</h3>
                             </div>
                             <div class="button">
-                                <a class="btn btn-primary" href="{{ route('LectureProfile') }}"><i class="fa-solid fa-angle-left"></i> Trở về</a>
+                                <a class="btn btn-primary" href="{{ route('StudentProfile') }}"><i class="fa-solid fa-angle-left"></i> Trở về</a>
                             </div>
                             @csrf
 
                             <div class="form-floating mb-3">
                                 <input class="form-control @error('fullName') is-invalid @enderror" name="fullName"
                                     type="text" id="fullName" placeholder="Nhập họ và tên"
-                                    value="{{ old('fullName') ?? $lecture->fullName }}" />
+                                    value="{{ old('fullName') ?? $student->fullName }}" />
                                 <label for="fullName">Họ tên</label>
                                 <div class="form-message  @error('fullName') invalid-feedback @enderror">
                                     @error('fullName')
@@ -42,7 +42,7 @@ $lecture = auth('lecture')->user();
                             <div class="form-floating mb-3">
                                 <input class="form-control @error('dateOfBirth') is-invalid @enderror" name="dateOfBirth"
                                     type="date" id="dateOfBirth" placeholder="Nhập ngày sinh"
-                                    value="{{ old('dateOfBirth') ?? $lecture->dateOfBirth }}" />
+                                    value="{{ old('dateOfBirth') ?? $student->dateOfBirth }}" />
                                 <label for="dateOfBirth">Ngày sinh</label>
                                 <div class="form-message  @error('dateOfBirth') invalid-feedback @enderror">
                                     @error('dateOfBirth')
@@ -52,7 +52,7 @@ $lecture = auth('lecture')->user();
                             </div>
 
                             <div class="button">
-                                <button class="btn btn-primary w-100" type="submit">Cập nhật thông tin giảng viên</button>
+                                <button class="btn btn-primary w-100" type="submit">Cập nhật thông tin sinh viên</button>
                             </div>
                         </form>
                     </div>

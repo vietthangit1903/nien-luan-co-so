@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\Admin\AdminLectureController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Auth\LectureAuthController;
+use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\LectureController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +25,9 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.admin');
+Route::prefix('admin')->middleware(['auth:lecture', 'isAdmin'])->group(function () {
+    Route::view('/', 'admin.admin')->name('admin.home');
+    
     // Subject Route
     Route::get('/subject', [SubjectController::class, 'ShowSubject'])->name('admin.showSubject');
     Route::post('/subject', [SubjectController::class, 'AddSubject'])->name('admin.addSubject');
@@ -50,11 +54,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/lecture/edit', [AdminLectureController::class, 'UpdateLectureInfoView'])->name('admin.updateLectureView');
     Route::post('/lecture/edit', [AdminLectureController::class, 'UpdateLecture'])->name('admin.updateLecture');
     Route::post('/lecture/delete', [AdminLectureController::class, 'DeleteLecture'])->name('admin.deleteLecture');
+
+    // Semester Route
+    Route::get('/semester', [SemesterController::class, 'ShowSemesterList'])->name('admin.showSemester');
+    Route::get('/semester/edit', [SemesterController::class, 'ShowEditSemester'])->name('admin.editSemester');
+    Route::post('/semester/edit', [SemesterController::class, 'EditSemester']);
 });
 
+// Lecture public route
 Route::get('/lecture/login', [LectureAuthController::class, 'ShowLoginForm'])->name('LectureLoginView');
 Route::post('/lecture/login', [LectureAuthController::class, 'Login'])->name('LectureLogin');
 
+// Authenticated Lecture route
 Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
     Route::post('/logout', [LectureAuthController::class, 'Logout'])->name('LectureLogout');
     Route::get('/change_password', [LectureAuthController::class, 'ShowChangePassword'])->name('LectureChangePassword');
@@ -63,4 +74,26 @@ Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
     Route::view('/profile', 'lecture.lectureProfile')->name('LectureProfile');
     Route::view('/profile/update', 'lecture.lectureUpdateProfile')->name('LectureUpdateProfile');
     Route::post('/profile/update', [LectureController::class, 'UpdateLecture']);
+});
+
+// Student public route
+Route::get('/student/register', [StudentAuthController::class, 'ShowRegisterForm'])->name('student.registerStudent');
+Route::post('/student/register', [StudentAuthController::class, 'RegisterStudent']);
+
+Route::get('/student/login', [StudentAuthController::class, 'ShowLoginForm'])->name('student.studentLogin');
+Route::post('/student/login', [StudentAuthController::class, 'Login']);
+
+// Authenticated Student Route
+
+Route::prefix('student')->middleware('auth:student')->group(function(){
+    Route::post('/logout', [StudentAuthController::class, 'Logout'])->name('studentLogout');
+
+    Route::get('/change_password', [StudentAuthController::class, 'ShowChangePassword'])->name('StudentChangePassword');
+    Route::post('/change_password', [StudentAuthController::class, 'ChangePassword']);
+
+    Route::view('/profile', 'student.studentProfile')->name('StudentProfile');
+    Route::view('/profile/update', 'student.studentUpdateProfile')->name('StudentUpdateProfile');
+    Route::post('/profile/update', [StudentController::class, 'UpdateStudent']);
+
+
 });

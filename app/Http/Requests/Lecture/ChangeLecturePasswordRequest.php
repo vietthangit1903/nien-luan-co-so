@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangePasswordLectureRequest extends FormRequest
+class ChangeLecturePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class ChangePasswordLectureRequest extends FormRequest
     {
         return [
             'current_password' => 'required|current_password:lecture',
-            'password' => 'required|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/'
+            'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/',
+            'password_confirmation' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/|same:password'
         ];
     }
 
@@ -42,8 +43,10 @@ class ChangePasswordLectureRequest extends FormRequest
             'current_password.current_password' => 'Mật khẩu hiện tại của bạn không đúng',
 
             'password.required' => 'Bạn phải nhập mật khẩu mới',
-            'password.confirmed' => 'Mật khẩu nhập lại không khớp',
             'password.regex' => 'Mật khẩu phải chứa chữ cái IN HOA, số, ký tự đặc biệt và tối thiểu 8 ký tự',
+
+            'password_confirmation.same' => 'Mật khẩu nhập lại không khớp',
+
         ];
     }
 }

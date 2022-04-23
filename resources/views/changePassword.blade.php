@@ -7,18 +7,23 @@
                 <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
                     <div class="register-form">
                         @isset($url)
-                            <form class="row g-3 needs-validation" method="POST" action="{{ route('LectureChangePassword') }}" id="change_password_form" novalidate>
+                            <form class="row g-3 needs-validation" method="POST" action="{{ route('LectureChangePassword') }}"
+                                id="change_password_form" novalidate>
                             @else
-                                <form class="row g-3 needs-validation" method="POST" action="#" id="change_password_form"
+                                <form class="row g-3 needs-validation" method="POST" action="{{ route('StudentChangePassword') }}" id="change_password_form"
                                     novalidate>
                                 @endisset
                                 <div class="title">
                                     <h3 class="text-center">Đổi mật khẩu</h3>
                                 </div>
-                                @if(Session::has('firstLogin'))
-                                    <p class="text-center">
+                                @if (Session::has('firstLogin'))
+                                    {{-- <div class="row"> --}}
+                                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
                                         Bạn cần đổi mật khẩu để tăng độ bảo mật cho tài khoản
-                                    </p>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    {{-- </div> --}}
                                 @endif
                                 @csrf
 

@@ -23,6 +23,6 @@ class LectureController extends Controller
         }
         $request->flash();
         $saveError = 'Đã có lỗi xảy ra trong quá trình lưu';
-        return view('lecture.UpdateLectureProfile', ['saveError' => $saveError]);
+        return view('lecture.lectureUpadateProfile', ['saveError' => $saveError]);
     }
 }

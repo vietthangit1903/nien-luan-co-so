@@ -5,7 +5,7 @@
 @endsection
 
 @php
-$lecture = auth('lecture')->user();
+$student = auth()->user();
 @endphp
 
 @section('content')
@@ -22,20 +22,19 @@ $lecture = auth('lecture')->user();
             </div>
             <div class="profile-content col-7">
                 <div class="profile-info mb-3">
-                    <h2 class="profile-name">{{ $lecture->fullName }}</h2>
-                    <h4 class="profile-major">{{ $lecture->subject->name }}</h4>
+                    <h2 class="profile-name">{{ $student->fullName }}</h2>
+                    <h4 class="profile-major">{{ $student->subject->name }}</h4>
                 </div>
                 <div class="profile-content mb-3">
                     <ul class="profile-detail">
-                        <li><span class="profile-label">Email: </span> {{ $lecture->email }}</li>
-                        <li><span class="profile-label">Ngày sinh: </span> {{ date('d/m/Y', strtotime($lecture->dateOfBirth)) }}</li>
-                        <li><span class="profile-label">Học hàm: </span> {{ $lecture->academic->name }}</li>
-                        <li><span class="profile-label">Chức vụ: </span> {{ $lecture->position->name }}</li>
+                        <li><span class="profile-label">Email: </span> {{ $student->email }}</li>
+                        <li><span class="profile-label">Ngày sinh: </span> {{ date('d/m/Y', strtotime($student->dateOfBirth)) }}</li>
+
                     </ul>
                 </div>
 
                 <div class="button">
-                    <a class="btn btn-primary w-50" href="{{ route('LectureUpdateProfile') }}" >Chỉnh sửa thông tin giảng viên </a>
+                    <a class="btn btn-primary w-50" href="{{ route('StudentUpdateProfile') }}" >Chỉnh sửa thông tin sinh viên </a>
                 </div>
 
             </div>

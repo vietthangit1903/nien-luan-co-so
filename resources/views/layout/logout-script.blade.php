@@ -7,14 +7,14 @@
             event.preventDefault();
             // hiển thị Sweetalert2 và xoá bằng ajax 
             // hoặc uncomment showModalConfirm() để xoá theo kiểu bình thường
-            showConfirm(event.currentTarget);
+            showConfirmLogout(event.currentTarget);
             // hoặc sử dụng Bootstrap Modal
-            //showModalConfirm(event.currentTarget); // lấy phần tử <a> vừa được click
+            //showModalConfirmLogout(event.currentTarget); // lấy phần tử <a> vừa được click
         })
     });
 
     // hàm hiển thị thông báo SweetAlert xác nhận xoá
-    function showConfirm(e) {
+    function showConfirmLogout(e) {
         Swal.fire({
             title: 'Đăng xuất khỏi hệ thống?',
             icon: 'question',

@@ -23,7 +23,7 @@ class Authenticate extends Middleware
             if ($routeName == 'lecture')
                 return route('LectureLoginView');
             else
-                return route('staffusers.login');//Sua thanh login danh cho sinh vien
+                return route('student.studentLogin');//Sua thanh login danh cho sinh vien
         }
     }
 }

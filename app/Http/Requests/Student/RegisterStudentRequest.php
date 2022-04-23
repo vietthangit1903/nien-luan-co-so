@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLectureProfileRequest extends FormRequest
+class RegisterStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,11 @@ class UpdateLectureProfileRequest extends FormRequest
     {
         return [
             'fullName' => 'required',
-            'email' => 'required|email|unique:lectures',
-            'dateOfBirth' => 'required|date'
+            'email' => 'required|email|unique:students',
+            'dateOfBirth' => 'required|date',
+            'subject_id' => 'required',
+            'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/',
+            'password_confirmation' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/|same:password'
         ];
     }
 
@@ -46,6 +49,16 @@ class UpdateLectureProfileRequest extends FormRequest
             
             'dateOfBirth.required' => 'Bạn phải nhập ngày sinh',
             'dateOfBirth.date' => 'Sai định dạng ngày sinh',
+
+            'subject_id.required' => 'Bạn phải chọn bộ môn', 
+            
+            'password.required' => 'Bạn phải nhập mật khẩu',
+            'password.regex' => 'Mật khẩu phải chứa chữ cái IN HOA, số, ký tự đặc biệt và tối thiểu 8 ký tự',
+
+            'password_confirmation.same' => 'Mật khẩu nhập lại không khớp',
+
         ];
     }
+
+
 }
