@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangeLecturePasswordRequest;
+use App\Http\Requests\Lecture\ChangeLecturePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\Admin\Role;
 use App\Models\Lecture;

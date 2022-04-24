@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateSemesterRequest;
+use App\Http\Requests\Admin\UpdateSemesterRequest;
 use App\Models\Semester;
 use Illuminate\Http\Request;
 

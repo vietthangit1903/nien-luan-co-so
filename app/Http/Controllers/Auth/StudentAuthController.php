@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangeStudentPasswordRequest;
+use App\Http\Requests\Student\ChangeStudentPasswordRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterStudentRequest;
+use App\Http\Requests\Student\RegisterStudentRequest;
 use App\Models\Admin\Subject;
 use App\Models\Student;
 use Illuminate\Http\Request;

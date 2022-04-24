@@ -32,7 +32,7 @@
             <a class="btn sidebar-heading w-100 text-start" href="{{route('admin.showRole')}}">Quản lý các quyền</a>
         </li>
         <li class="mb-1">
-            <a class="btn sidebar-heading w-100 text-start" href="#">Quản lý sinh viên</a>
+            <a class="btn sidebar-heading w-100 text-start" href="{{route('admin.studentList')}}">Quản lý sinh viên</a>
         </li>
     </ul>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminLectureController;
+use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -59,6 +60,13 @@ Route::prefix('admin')->middleware(['auth:lecture', 'isAdmin'])->group(function 
     Route::get('/semester', [SemesterController::class, 'ShowSemesterList'])->name('admin.showSemester');
     Route::get('/semester/edit', [SemesterController::class, 'ShowEditSemester'])->name('admin.editSemester');
     Route::post('/semester/edit', [SemesterController::class, 'EditSemester']);
+
+    // Student Route
+    Route::get('/student', [AdminStudentController::class, 'ShowStudentList'])->name('admin.studentList');
+    Route::get('/student/edit', [AdminStudentController::class, 'UpdateStudentInfoView'])->name('admin.updateStudent');
+    Route::post('/student/edit', [AdminStudentController::class, 'UpdateStudent']);
+    Route::post('/student/delete', [AdminStudentController::class, 'DeleteStudent'])->name('admin.deleteStudent');
+
 });
 
 // Lecture public route

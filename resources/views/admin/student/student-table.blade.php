@@ -12,9 +12,9 @@
     </thead>
     <tbody>
         @php
-            $start = ($lectures->currentPage() - 1) * $lectures->perPage() + 1;
+            $start = ($students->currentPage() - 1) * $students->perPage() + 1;
         @endphp
-        @foreach ($lectures as $item)
+        @foreach ($students as $item)
             <tr>
                 <th scope="row">{{ $start++ }}</th>
                 <td>{{ $item->id }}</td>
@@ -23,11 +23,11 @@
                 <td>{{ date('d/m/Y', strtotime($item->dateOfBirth)) }}</td>
                 <td>{{ $item->subject->name }}</td>
                 <td>
-                    <a href="/admin/lecture/edit?id={{ $item->id }}" class="me-3"><i
+                    <a href="/admin/student/edit?id={{ $item->id }}" class="me-3"><i
                         class="fa-solid fa-pen"></i></a>
-                    <a class="delete" href="{{ route('admin.deleteLecture') }}"
+                    <a class="delete" href="{{ route('admin.deleteStudent') }}"
                         data-id="{{ $item->id }}" title="Xóa {{ $item->fullName }}" data-name="{{ $item->fullName }}"
-                        data-csrf="{{ csrf_token() }}" data-return-url="{{ route('admin.showLectureList') }}">
+                        data-csrf="{{ csrf_token() }}" data-return-url="{{ route('admin.studentList') }}">
                         <i class="fa-solid fa-xmark"></i>
                     </a>
                 </td>
@@ -38,5 +38,5 @@
 </table>
 
 <!-- Pagination -->
-{{ $lectures->links() }}
+{{ $students->links() }}
 <!-- End pagination -->

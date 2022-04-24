@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateLectureProfileRequest;
+use App\Http\Requests\Lecture\UpdateLectureProfileRequest;
 use App\Models\Lecture;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

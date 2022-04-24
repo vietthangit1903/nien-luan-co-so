@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateLectureRequest;
-use App\Http\Requests\UpdateLectureRequest;
+use App\Http\Requests\Admin\CreateLectureRequest;
+use App\Http\Requests\Admin\UpdateLectureRequest;
 use App\Models\Academic_rank;
 use App\Models\Admin\Role;
 use App\Models\Admin\Subject;

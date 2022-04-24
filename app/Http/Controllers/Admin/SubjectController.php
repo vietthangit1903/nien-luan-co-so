@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateSubjectRequest;
-use App\Http\Requests\UpdateSubjectRequest;
+use App\Http\Requests\Admin\CreateSubjectRequest;
+use App\Http\Requests\Admin\UpdateSubjectRequest;
 use App\Models\Admin\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
