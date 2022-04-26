@@ -39,7 +39,7 @@ class LectureAuthController extends Controller
 
             if(strcmp($input['password'], 'Abc@12345') == 0)
                 return redirect()->route('LectureChangePassword')->with('firstLogin', true);
-            return redirect()->route('home');
+            return redirect()->route('LecturePage');
         } else {
             return redirect()->back()->withInput()->with('error', 'Thông tin bạn nhập không chính xác');
         }

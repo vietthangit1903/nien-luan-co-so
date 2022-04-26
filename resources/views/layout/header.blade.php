@@ -17,7 +17,7 @@
 
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-plus"></i> Trang giảng viên</a></li>
+                    <li><a class="dropdown-item" href="{{ route('LecturePage') }}"><i class="fa-brands fa-leanpub"></i> Trang giảng viên</a></li>
                     @if (Session::has('isAdmin'))
                         <li><a class="dropdown-item" href="{{ route('admin.home') }}"><i class="fa-solid fa-gear"></i>
                                 Trang quản lý</a></li>

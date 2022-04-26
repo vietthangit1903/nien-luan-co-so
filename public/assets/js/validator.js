@@ -160,3 +160,12 @@ Validator.isDate = function (selector, message = 'Sai định dạng ngày thán
         }
     }
 };
+
+Validator.max = function (selector, maxValue, message = 'Giá trị không được vượt quá ' + maxValue) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value <=  maxValue ? undefined : message;
+        }
+    };
+};

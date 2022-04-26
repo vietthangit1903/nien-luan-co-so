@@ -109,7 +109,7 @@
 
 
                             <div class="button">
-                                <button class="btn btn-primary w-100" type="submit">Tạo giảng viên mới</button>
+                                <button class="btn btn-primary w-100" type="submit"><i class="fa-solid fa-plus"></i> Tạo giảng viên mới</button>
                             </div>
                         </form>
                     </div>

@@ -34,7 +34,7 @@
                                 <input class="form-control @error('time_start_give_topic') is-invalid @enderror"
                                     name="time_start_give_topic" type="date" id="time_start_give_topic"
                                     placeholder="Thời gian giảng viên bắt đầu nhập niên luận"
-                                    value="{{ old('time_start_give_topic') ?? $semester->time_start_give_topic }}" />
+                                    value="{{ old('time_start_give_topic') ?? isset($semester->time_start_give_topic) ? date('Y-m-d', strtotime($semester->time_start_give_topic)) : '' }}" />
                                 <label for="time_start_give_topic">Thời gian giảng viên bắt đầu nhập niên luận</label>
                                 <div class="form-message  @error('time_start_give_topic') invalid-feedback @enderror">
                                     @error('time_start_give_topic')
@@ -47,7 +47,7 @@
                                 <input class="form-control @error('time_end_give_topic') is-invalid @enderror"
                                     name="time_end_give_topic" type="date" id="time_end_give_topic"
                                     placeholder="Thời gian giảng viên kết thúc nhập niên luận"
-                                    value="{{ old('time_end_give_topic') ?? $semester->time_end_give_topic }}" />
+                                    value="{{ old('time_end_give_topic') ?? isset($semester->time_end_give_topic) ? date('Y-m-d', strtotime($semester->time_end_give_topic)) : ''  }}" />
                                 <label for="time_end_give_topic">Thời gian giảng viên kết thúc nhập niên luận</label>
                                 <div class="form-message  @error('time_end_give_topic') invalid-feedback @enderror">
                                     @error('time_end_give_topic')
@@ -60,7 +60,7 @@
                                 <input class="form-control @error('time_start_reg_topic') is-invalid @enderror"
                                     name="time_start_reg_topic" type="date" id="time_start_reg_topic"
                                     placeholder="Thời gian sinh viên bắt đầu đăng ký niên luận"
-                                    value="{{ old('time_start_reg_topic') ?? $semester->time_start_reg_topic }}" />
+                                    value="{{ old('time_start_reg_topic') ?? isset($semester->time_start_reg_topic) ? date('Y-m-d', strtotime($semester->time_start_reg_topic)) : ''  }}" />
                                 <label for="time_start_reg_topic">Thời gian sinh viên bắt đầu đăng ký niên luận</label>
                                 <div class="form-message  @error('time_start_reg_topic') invalid-feedback @enderror">
                                     @error('time_start_reg_topic')
@@ -73,7 +73,7 @@
                                 <input class="form-control @error('time_end_reg_topic') is-invalid @enderror"
                                     name="time_end_reg_topic" type="date" id="time_end_reg_topic"
                                     placeholder="Thời gian sinh viên kết thúc đăng ký niên luận"
-                                    value="{{ old('time_end_reg_topic') ?? $semester->time_end_reg_topic }}" />
+                                    value="{{ old('time_end_reg_topic') ?? isset($semester->time_end_reg_topic) ? date('Y-m-d', strtotime($semester->time_end_reg_topic)) : ''  }}" />
                                 <label for="time_end_reg_topic">Thời gian sinh viên kết thúc đăng ký niên luận</label>
                                 <div class="form-message  @error('time_end_reg_topic') invalid-feedback @enderror">
                                     @error('time_end_reg_topic')

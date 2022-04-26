@@ -43,13 +43,7 @@
     <script src="{{ url('') }}/assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @include('layout.logout-script')
-    <script>
-        var loader = document.querySelector('#preloader');
-        window.addEventListener('load', function() {
-            loader.style.display = "none";
-        })
-    </script>
+    <script src="{{ url('') }}/assets/js/script.js"></script>
     <script src="{{ url('') }}/assets/js/validator.js"></script>
     @include('layout.notification')
     @yield('custom_js')

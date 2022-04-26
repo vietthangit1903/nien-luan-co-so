@@ -82,6 +82,14 @@ Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
     Route::view('/profile', 'lecture.lectureProfile')->name('LectureProfile');
     Route::view('/profile/update', 'lecture.lectureUpdateProfile')->name('LectureUpdateProfile');
     Route::post('/profile/update', [LectureController::class, 'UpdateLecture']);
+
+    Route::view('/', 'lecture.lecturePage')->name('LecturePage');
+
+    Route::get('/add_topic', [LectureController::class, 'AddTopicView'])->name('lecture.addTopic');
+    Route::post('/add_topic', [LectureController::class, 'AddTopic']);
+
+    Route::get('/topic_list', [LectureController::class, 'TopicList'])->name('lecture.topicList');
+
 });
 
 // Student public route
