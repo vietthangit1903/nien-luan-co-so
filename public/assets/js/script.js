@@ -26,7 +26,32 @@ $(document).ready(function () {
         // hoặc sử dụng Bootstrap Modal
         //showModalConfirmLogout(event.currentTarget); // lấy phần tử <a> vừa được click
     })
+
+    $(document).on('change', '#semester_form', function (event) {
+        var semester_no = document.querySelector('#semester_form #semester_no').value;
+        var semester_name = document.querySelector('#semester_form #semester_name').value;
+        var url = $(event).prop('action')
+        $.ajax({
+            method: "GET",
+            url: url,
+            data: {
+                semester_no: semester_no,
+                semester_name: semester_name,
+            }
+        }).done(function (response) {
+            $('.table').html(response.data);
+        }).fail(function () {
+            Swal.fire(
+                'Lỗi',
+                'Không thể hiển thị view, thử lại.',
+                'error'
+            )
+        });
+    })
+
 });
+
+
 
 // hàm hiển thị thông báo SweetAlert xác nhận đăng xuất
 function showConfirmLogout(e) {
@@ -113,14 +138,14 @@ function ajaxDelete(e) {
         let target = $('.table');
         reloadList(reload_url, target);
         Swal.fire(
-            'Deleted!',
+            'Đã xóa!',
             response.message,
             'success'
         );
 
     }).fail(function (response) { // nếu thất bại
         Swal.fire(
-            'Error',
+            'Lỗi',
             response.responseJSON.message,
             'error'
         )

@@ -90,6 +90,10 @@ Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
 
     Route::get('/topic_list', [LectureController::class, 'TopicList'])->name('lecture.topicList');
 
+    Route::get('/topic/edit', [LectureController::class, 'GetEditTopic'])->name('lecture.editTopic');
+    Route::post('/topic/edit', [LectureController::class, 'EditTopic']);
+    Route::post('/topic/delete', [LectureController::class, 'DeleteTopic'])->name('lecture.deleteTopic');
+
 });
 
 // Student public route

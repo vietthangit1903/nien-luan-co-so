@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Lecture;
+use App\Models\Topic;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('edit-topic', function (Lecture $lecture, Topic $topic) {
+            return $lecture->id === $topic->lecture_id;
+        });
     }
 }

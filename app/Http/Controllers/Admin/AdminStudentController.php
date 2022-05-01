@@ -74,7 +74,7 @@ class AdminStudentController extends Controller
                 } else {
                     return response()->json(
                         [
-                            'message' => 'Đã có lỗi xảy ra, không thể xóa giảng viên'
+                            'message' => 'Đã có lỗi xảy ra, không thể xóa sinh viên'
                         ],
                         Response::HTTP_BAD_REQUEST
                     );
@@ -82,7 +82,7 @@ class AdminStudentController extends Controller
             }
             return response()->json(
                 [
-                    'message' => 'Giảng viên không tồn tại'
+                    'message' => 'Sinh viên không tồn tại'
                 ],
                 Response::HTTP_NOT_FOUND
             );
