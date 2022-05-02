@@ -35,10 +35,10 @@ class LectureController extends Controller
     public function AddTopicView()
     {
         $semester = Semester::where('current', 1)->first();
-        $current_date = date('d/m/Y');
-        if ($current_date < date('d/m/Y', strtotime($semester->time_start_give_topic)))
+        $current_time = time();
+        if ($current_time < strtotime($semester->time_start_give_topic))
             return redirect()->back()->withInput()->with('info', 'Thời gian bắt đầu nhập niên luận: ' . date('d/m/Y', strtotime($semester->time_start_give_topic)));
-        if ($current_date > date('d/m/Y', strtotime($semester->time_end_give_topic)))
+        if ($current_time > strtotime($semester->time_end_give_topic))
             return redirect()->back()->withInput()->with('info', 'Thời gian nhập niên luận đã kết thúc');
 
 

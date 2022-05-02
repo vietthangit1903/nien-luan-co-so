@@ -19,7 +19,7 @@ class LectureAuthController extends Controller
     public function ShowLoginForm()
     {
         if (Auth::guard('lecture')->check()) {
-           return redirect()->route('home');
+           return redirect()->back();
         }
         return view('login', ['url' => 'Lecture']);
     }

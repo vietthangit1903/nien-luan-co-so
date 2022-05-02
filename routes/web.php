@@ -115,5 +115,12 @@ Route::prefix('student')->middleware('auth:student')->group(function(){
     Route::view('/profile/update', 'student.studentUpdateProfile')->name('StudentUpdateProfile');
     Route::post('/profile/update', [StudentController::class, 'UpdateStudent']);
 
+    Route::view('/', 'student.studentPage')->name('StudentPage');
+
+    Route::get('topic/register', [StudentController::class, 'GetRegisterTopic'])->name('student.registerTopic');
+    Route::post('topic/register', [StudentController::class, 'RegisterTopic']);
+    Route::post('topic/cancel-register', [StudentController::class, 'CancelRegisterTopic'])->name('student.cancelRegisterTopic');
+
+
 
 });

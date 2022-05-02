@@ -11,20 +11,20 @@
 
 
         @auth('lecture')
+            <a href="{{ route('LectureProfile') }}" title="Thông tin giảng viên">{{ auth()->user()->fullName }}</a>
+
             <div class="dropdown user">
                 <img class="rounded-circle align-middle" src="{{ url('') }}/assets/img/default-user-image.png"
                     role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" alt="User picture">
 
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="{{ route('LecturePage') }}"><i class="fa-brands fa-leanpub"></i> Trang giảng viên</a></li>
+                    <li><a class="dropdown-item" href="{{ route('LecturePage') }}"><i class="fa-brands fa-leanpub"></i>
+                            Trang giảng viên</a></li>
                     @if (Session::has('isAdmin'))
                         <li><a class="dropdown-item" href="{{ route('admin.home') }}"><i class="fa-solid fa-gear"></i>
                                 Trang quản lý</a></li>
                     @endif
-                    <li><a class="dropdown-item" href="{{ route('LectureProfile') }}"><i
-                                class="fa-regular fa-pen-to-square"></i> Thông tin giảng
-                            viên</a></li>
                     <li><a class="dropdown-item" href="{{ route('LectureChangePassword') }}"><i
                                 class="fa-solid fa-key"></i> Đổi mật khẩu</a></li>
                     <li><a class="dropdown-item" href="{{ route('LectureLogout') }}" id="logout"
@@ -36,22 +36,24 @@
         @endauth
 
         @auth('student')
+            <a href="{{ route('StudentProfile') }}" title="Thông tin sinh viên">{{ auth()->user()->fullName }}</a>
+
             <div class="dropdown user">
                 <img class="rounded-circle align-middle" src="{{ url('') }}/assets/img/default-user-image.png"
                     role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" alt="User picture">
 
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-plus"></i> Trang sinh viên</a></li>
-                    <li><a class="dropdown-item" href="{{ route('StudentProfile') }}"><i class="fa-regular fa-pen-to-square"></i> Thông tin sinh
-                            viên</a></li>
-                    <li><a class="dropdown-item" href="{{ route('StudentChangePassword') }}"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a></li>
-                    <li><a class="dropdown-item" href="{{ route('studentLogout') }}" id="logout" data-redirect="/student/login" data-csrf="{{ csrf_token() }}"><i
+                    <li><a class="dropdown-item" href="{{ route('StudentPage') }}"><i class="fa-solid fa-book-open-reader"></i> Trang sinh viên</a></li>
+                    
+                    <li><a class="dropdown-item" href="{{ route('StudentChangePassword') }}"><i
+                                class="fa-solid fa-key"></i> Đổi mật khẩu</a></li>
+                    <li><a class="dropdown-item" href="{{ route('studentLogout') }}" id="logout"
+                            data-redirect="/student/login" data-csrf="{{ csrf_token() }}"><i
                                 class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                     </li>
                 </ul>
             </div>
-
         @endauth
 
         @if (!auth()->check() && !auth('lecture')->check())

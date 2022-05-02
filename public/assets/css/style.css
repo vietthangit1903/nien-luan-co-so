@@ -147,10 +147,6 @@ html{
     padding: 0 10px;
 }
 
-.header .auth>a{
-    text-decoration: none;
-    display: inline block;
-}
 
 .header .auth a:last-child{
     border: none;
@@ -165,6 +161,7 @@ html{
     cursor: pointer;
     width: 3.5rem;
     height: 3.5rem;
+    display:  inline-block;
 }
 
 .header .auth .user>img{

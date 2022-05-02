@@ -28,4 +28,9 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(Subject::class);
     }
+
+    public function performs()
+    {
+        return $this->hasMany(Perform::class);
+    }
 }

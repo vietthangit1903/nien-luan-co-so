@@ -42,9 +42,9 @@ class StudentAuthController extends Controller
 
     public function ShowLoginForm()
     {
-        if (Auth::check()) {
-            return redirect()->route('home');
-        }
+        if (Auth::guard('student')->check()) {
+            return redirect()->back();
+         }
         return view('login');
     }
 
@@ -55,7 +55,7 @@ class StudentAuthController extends Controller
 
         if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']], $remember)) {
             Session::flash('success', 'Chào mừng bạn đến với hệ thống');
-            return redirect()->route('home');
+            return redirect()->route('StudentPage');
         }
         return redirect()->back()->withInput()->with('error', 'Thông tin bạn nhập không chính xác');
     }

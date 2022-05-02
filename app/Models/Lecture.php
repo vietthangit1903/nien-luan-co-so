@@ -45,9 +45,9 @@ class Lecture extends Authenticatable
         return $this->belongsTo(Position::class);
     }
 
-    public function topic()
+    public function topics()
     {
-        return $this->hasMany(Topic::class, 'lecture_id');
+        return $this->hasMany(Topic::class);
     }
 
 

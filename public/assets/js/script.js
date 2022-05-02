@@ -10,21 +10,15 @@ $(document).ready(function () {
         // stop chuyen link khi nhấn vào thẻ <a>
         event.preventDefault();
         // hiển thị Sweetalert2 và xoá bằng ajax 
-        // hoặc uncomment showModalConfirm() để xoá theo kiểu bình thường
         showConfirm(event.currentTarget);
-        // hoặc sử dụng Bootstrap Modal
-        //showModalConfirm(event.currentTarget); // lấy phần tử <a> vừa được click
     })
 
 
     $(document).on('click', '#logout', function (event) {
         // stop chuyen link khi nhấn vào thẻ <a>
         event.preventDefault();
-        // hiển thị Sweetalert2 và xoá bằng ajax 
-        // hoặc uncomment showModalConfirm() để xoá theo kiểu bình thường
+        // hiển thị Sweetalert2 và logout bằng ajax 
         showConfirmLogout(event.currentTarget);
-        // hoặc sử dụng Bootstrap Modal
-        //showModalConfirmLogout(event.currentTarget); // lấy phần tử <a> vừa được click
     })
 
     $(document).on('change', '#semester_form', function (event) {
@@ -49,8 +43,63 @@ $(document).ready(function () {
         });
     })
 
+    $(document).on('click', '.register_topic', function (event) {
+        // stop chuyen link khi nhấn vào thẻ <a>
+        event.preventDefault();
+        ajaxRegisterTopic(event.currentTarget);
+    })
+
+    $(document).on('click', '.cancel_register_topic', function (event) {
+        // stop chuyen link khi nhấn vào thẻ <a>
+        event.preventDefault();
+
+        showConfirmCancelRegisterTopic(event.currentTarget);
+    })
+
 });
 
+function showConfirmCancelRegisterTopic(e) {
+    Swal.fire({
+        title: 'Bạn chắc chắn muốn hủy đăng ký niên luận này',
+        icon: 'question',
+        iconColor: '#00b4d8',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: '#58bb43',
+        confirmButtonText: 'Đồng ý'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            ajaxRegisterTopic(e);
+        }
+    });
+};
+
+//Ajax register topic
+function ajaxRegisterTopic(e) {
+    var id = $(e).data('id')
+    var csrf = $(e).data('csrf')
+    var url = $(e).prop('href')
+    var return_url = $(e).data('return-url')
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {
+            _token: csrf,
+            id: id
+        }
+    }).done(function (response) {
+        //Hiện toastr message thành công
+        toastr.success(response.message);
+        //Reload lại trang
+        reloadList(return_url, '.table');
+
+    }).fail(function (response) {
+        toastr.error(response.responseJSON.message);
+     })
+
+}
 
 
 // hàm hiển thị thông báo SweetAlert xác nhận đăng xuất
@@ -113,7 +162,6 @@ function showConfirm(e) {
     }).then((result) => {
         if (result.isConfirmed) {
             ajaxDelete(e);
-            // console.log('Xác nhận ' + $(e).data('csrf'));
         }
     });
 }
@@ -161,8 +209,8 @@ function reloadList(url, target) {
         $(target).html(response.data);
     }).fail(function () {
         Swal.fire(
-            'Error',
-            'Unable to reload the contact list. Try again.',
+            'Lỗi!',
+            'Không thể tải lại danh sách. Thử lại.',
             'error'
         )
     });

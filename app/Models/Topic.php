@@ -17,7 +17,7 @@ class Topic extends Model
 
     public function lecture()
     {
-        return $this->belongsTo(Lecture::class);
+        return $this->belongsTo(Lecture::class, 'lecture_id');
     }
 
     public function semester()
@@ -28,5 +28,10 @@ class Topic extends Model
     public function topic_type()
     {
         return $this->belongsTo(TopicType::class, 'topic_type_id');
+    }
+
+    public function performs()
+    {
+        return $this->hasMany(Perform::class);
     }
 }

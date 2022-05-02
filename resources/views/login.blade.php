@@ -13,7 +13,7 @@
                                 <form class="row g-3 needs-validation" method="POST" action="{{ route('student.studentLogin') }}" id="login_form" novalidate>
                                 @endisset
                                 <div class="title">
-                                    <h3 class="text-center">Đăng nhập</h3>
+                                    <h3 class="text-center">Đăng nhập {{isset($url)? 'giảng viên' : 'sinh viên'}}</h3>
                                     <p class="text-center">
                                         Đăng nhập tài khoản để có thể sử dụng chức năng của hệ thống
                                     </p>
