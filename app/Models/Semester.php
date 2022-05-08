@@ -22,7 +22,7 @@ class Semester extends Model
         'time_end_reg_topic',
     ];
 
-    public function topic()
+    public function topics()
     {
         return $this->hasMany(Topic::class, 'semester_id');
     }

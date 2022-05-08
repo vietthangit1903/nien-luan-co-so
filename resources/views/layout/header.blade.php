@@ -11,7 +11,7 @@
 
 
         @auth('lecture')
-            <a href="{{ route('LectureProfile') }}" title="Thông tin giảng viên">{{ auth()->user()->fullName }}</a>
+            <a href="{{ route('LectureProfile') }}" title="Thông tin giảng viên">{{ auth('lecture')->user()->fullName }}</a>
 
             <div class="dropdown user">
                 <img class="rounded-circle align-middle" src="{{ url('') }}/assets/img/default-user-image.png"
@@ -36,7 +36,7 @@
         @endauth
 
         @auth('student')
-            <a href="{{ route('StudentProfile') }}" title="Thông tin sinh viên">{{ auth()->user()->fullName }}</a>
+            <a href="{{ route('StudentProfile') }}" title="Thông tin sinh viên">{{ auth('student')->user()->fullName }}</a>
 
             <div class="dropdown user">
                 <img class="rounded-circle align-middle" src="{{ url('') }}/assets/img/default-user-image.png"

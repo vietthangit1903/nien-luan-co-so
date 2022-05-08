@@ -150,9 +150,14 @@ function ajaxLogout(e) {
 
 // hàm hiển thị thông báo SweetAlert xác nhận xoá
 function showConfirm(e) {
+    var text
+    if($(e).data('name'))
+        text = "<p>Xóa <b>" + $(e).data('name') + "</b> có <b>ID = " + $(e).data('id') + "</b></p> <p>Bạn sẽ không thể hoàn tác</p>"
+    else
+    text = "<p>Bạn sẽ không thể hoàn tác</p>"     
     Swal.fire({
         title: 'Bạn chắc chắn?',
-        html: "<p>Xóa <b>" + $(e).data('name') + "</b> có <b>ID = " + $(e).data('id') + "</b></p> <p>Bạn sẽ không thể hoàn tác</p>",
+        html: text,
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',

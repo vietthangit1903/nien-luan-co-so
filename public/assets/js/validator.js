@@ -169,3 +169,12 @@ Validator.max = function (selector, maxValue, message = 'Giá trị không đư�
         }
     };
 };
+
+Validator.maxLength = function (selector, maxValue, message = 'Giá trị không được vượt quá ' + maxValue) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.length <=  maxValue ? undefined : message;
+        }
+    };
+};

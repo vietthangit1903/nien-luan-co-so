@@ -34,4 +34,9 @@ class Topic extends Model
     {
         return $this->hasMany(Perform::class);
     }
+
+    public function progress_report()
+    {
+        return $this->hasMany(ProgressReport::class);
+    }
 }

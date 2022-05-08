@@ -29,7 +29,7 @@
                         </div>
                         Đăng ký niên luận
                     </a>
-                    <a class="btn btn-primary action-btn  my-2 me-2" href="#">
+                    <a class="btn btn-primary action-btn  my-2 me-2" href="{{ route('student.topicList') }}">
                         <div class="action-icon">
                             <i class="fa-solid fa-list"></i>
                         </div>

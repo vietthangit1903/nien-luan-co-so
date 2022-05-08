@@ -93,6 +93,7 @@ Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
     Route::get('/topic/edit', [LectureController::class, 'GetEditTopic'])->name('lecture.editTopic');
     Route::post('/topic/edit', [LectureController::class, 'EditTopic']);
     Route::post('/topic/delete', [LectureController::class, 'DeleteTopic'])->name('lecture.deleteTopic');
+    Route::get('/topic/detail', [LectureController::class, 'TopicDetail'])->name('lecture.topicDetail');
 
 });
 
@@ -120,6 +121,13 @@ Route::prefix('student')->middleware('auth:student')->group(function(){
     Route::get('topic/register', [StudentController::class, 'GetRegisterTopic'])->name('student.registerTopic');
     Route::post('topic/register', [StudentController::class, 'RegisterTopic']);
     Route::post('topic/cancel-register', [StudentController::class, 'CancelRegisterTopic'])->name('student.cancelRegisterTopic');
+
+    Route::get('/topic_list', [StudentController::class, 'TopicList'])->name('student.topicList');
+
+    Route::get('/progress_port', [StudentController::class, 'GetProgressReport'])->name('student.progressReport');
+    Route::post('/progress_port', [StudentController::class, 'SaveProgressReport']);
+    Route::post('/progress_port/delete', [StudentController::class, 'DeleteProgressReport'])->name('student.deleteProgressReport');
+
 
 
 

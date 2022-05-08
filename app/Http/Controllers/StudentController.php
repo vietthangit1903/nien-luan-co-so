@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Student\ProgressReportRequest;
 use App\Http\Requests\Student\UpdateStudentProfileRequest;
 use App\Models\Perform;
+use App\Models\ProgressReport;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Topic;
@@ -39,7 +41,7 @@ class StudentController extends Controller
             return redirect()->back()->withInput()->with('info', 'Thời gian bắt đầu đăng ký niên luận: ' . date('d/m/Y', strtotime($current_semester->time_start_reg_topic)));
         if ($current_time > strtotime($current_semester->time_end_reg_topic))
             return redirect()->back()->withInput()->with('info', 'Thời gian đăng ký niên luận đã kết thúc');
-            
+
         $student = Auth::user();
         $registered_topic = Topic::join('perform', 'perform.topic_id', '=', 'topic.id')
             ->select('topic.id')
@@ -146,8 +148,8 @@ class StudentController extends Controller
         $student_id = Auth::id();
 
         $perform = Perform::where([['topic_id', $topic_id], ['student_id', $student_id]])->first();
-        if($perform){
-            if($perform->delete()){
+        if ($perform) {
+            if ($perform->delete()) {
                 return response()->json(
                     [
                         'message' => 'Bạn đã hủy đăng ký thành công'
@@ -165,6 +167,114 @@ class StudentController extends Controller
         return response()->json(
             [
                 'message' => 'Đăng ký không tồn tại'
+            ],
+            Response::HTTP_NOT_FOUND
+        );
+    }
+
+    public function TopicList(Request $request)
+    {
+        $student_id = Auth::id();
+        $current_semester = Semester::where('current', 1)->first();
+        if (!$request->ajax()) {
+            $semesters = Semester::all();
+            $topics = Topic::join('perform', 'topic.id', '=', 'perform.topic_id')
+                ->select('topic.*')
+                ->where('perform.student_id', $student_id)
+                ->where('topic.semester_id', $current_semester->id)
+                ->paginate(10);
+            $data = [
+                'current_semester' => $current_semester,
+                'semesters' => $semesters,
+                'topics' => $topics,
+            ];
+            return view('student.topicList.topicList', $data);
+        }
+        $semester_id = Semester::where('semester_no', $request->input('semester_no'))->where('semester_name', $request->input('semester_name'))->value('id');
+        $topics = Topic::leftJoin('perform', 'topic.id', '=', 'perform.topic_id')
+            ->select('topic.*')
+            ->where('perform.student_id', $student_id)
+            ->where('topic.semester_id', $semester_id)
+            ->paginate(10);
+
+
+        $data = [
+            'current_semester' => $current_semester,
+            'topics' => $topics,
+        ];
+        $html = view('student.topicList.topicList-table', $data)->render();
+        return response()->json(['data' => $html]);
+    }
+
+    public function GetProgressReport(Request $request)
+    {
+        $topic_id = $request->query('topic_id');
+        $student_id = Auth::id();
+        $performed = Perform::where([['topic_id', $topic_id], ['student_id', $student_id]])->first();
+        if (!$request->ajax()) {
+            if ($performed) {
+                $progressReports = ProgressReport::where([['topic_id', $topic_id], ['student_id', $student_id]])->paginate(10);
+                return view('student.progressReport.progressReport', ['progressReports' => $progressReports]);
+            }
+            return back()->with('error', 'Bạn không thể báo cáo tiến độ cho niên luận này');
+        } else {
+            if ($performed) {
+                $progressReports = ProgressReport::where([['topic_id', $topic_id], ['student_id', $student_id]])->paginate(10);
+                $html = view('student.progressReport.progressReport-table', ['progressReports' => $progressReports])->render();
+                return response()->json(['data' => $html]);
+            }
+            return response()->json(
+                [
+                    'message' => 'Bạn không thể xem báo cáo tiến độ của niên luận này'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+    }
+
+    public function SaveProgressReport(ProgressReportRequest $request)
+    {
+        $topic_id = $request->query('topic_id');
+        $student_id = Auth::id();
+        $input = $request->validated();
+        $performed = Perform::where([['topic_id', $topic_id], ['student_id', $student_id]])->first();
+        if ($performed) {
+            $progressReport = new ProgressReport();
+            $progressReport->topic_id = $topic_id;
+            $progressReport->student_id = $student_id;
+            $progressReport->content = $input['progress-report-content'];
+            if ($progressReport->save()) {
+                return back()->with('success', 'Bạn đã thêm báo cáo thành công');
+            }
+            return back()->withInput()->with('error', 'Đã có lỗi trong quá trình lưu');
+        }
+        return back()->with('error', 'Bạn không thể báo cáo tiến độ cho niên luận này');
+    }
+
+    public function DeleteProgressReport(Request $request)
+    {
+        $progressReportId = $request->input('id');
+        $progressReport = ProgressReport::find($progressReportId);
+        if ($progressReport) {
+            if ($progressReport->student_id == Auth::id()) {
+                if ($progressReport->delete())
+                    return response()->json(
+                        [
+                            'message' => 'Đã xóa báo cáo tiến độ thành công'
+                        ],
+                        Response::HTTP_OK
+                    );
+            }
+            return response()->json(
+                [
+                    'message' => 'Bạn không thể xóa báo cáo tiến độ này'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+        return response()->json(
+            [
+                'message' => 'Báo cáo tiến độ không tồn tại'
             ],
             Response::HTTP_NOT_FOUND
         );

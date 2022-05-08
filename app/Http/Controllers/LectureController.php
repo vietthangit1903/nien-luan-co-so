@@ -6,10 +6,12 @@ use App\Http\Requests\Lecture\AddTopicRequest;
 use App\Http\Requests\Lecture\UpdateLectureProfileRequest;
 use App\Models\Lecture;
 use App\Models\Semester;
+use App\Models\Student;
 use App\Models\Topic;
 use App\Models\TopicType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +74,12 @@ class LectureController extends Controller
         $current_semester = Semester::where('current', 1)->first();
         if (!$request->ajax()) {
             $semesters = Semester::all();
-            $topics = Topic::where('lecture_id', $lecture_id)->where('semester_id', $current_semester->id)->paginate(10);
+            $topics = Topic::leftJoin('perform', 'topic.id', '=', 'perform.topic_id')
+                ->select('topic.*', DB::raw('count(perform.student_id) as registered_number'))
+                ->where('lecture_id', $lecture_id)
+                ->where('semester_id', $current_semester->id)
+                ->groupBy('topic.id')
+                ->paginate(10);
             $data = [
                 'current_semester' => $current_semester,
                 'semesters' => $semesters,
@@ -81,11 +88,21 @@ class LectureController extends Controller
             return view('lecture.topicList', $data);
         }
         if ($request->input('semester_no') == null || $request->input('semester_name') == null)
-            $topics = Topic::where('lecture_id', $lecture_id)->where('semester_id', $current_semester->id)->paginate(10);
+            $topics = Topic::leftJoin('perform', 'topic.id', '=', 'perform.topic_id')
+                ->select('topic.*', DB::raw('count(perform.student_id) as registered_number'))
+                ->where('lecture_id', $lecture_id)
+                ->where('semester_id', $current_semester->id)
+                ->groupBy('topic.id')
+                ->paginate(10);
         else {
 
             $semester_id = Semester::where('semester_no', $request->input('semester_no'))->where('semester_name', $request->input('semester_name'))->value('id');
-            $topics = Topic::where('lecture_id', $lecture_id)->where('semester_id', $semester_id)->paginate(10);
+            $topics = Topic::leftJoin('perform', 'topic.id', '=', 'perform.topic_id')
+                ->select('topic.*', DB::raw('count(perform.student_id) as registered_number'))
+                ->where('lecture_id', $lecture_id)
+                ->where('semester_id', $semester_id)
+                ->groupBy('topic.id')
+                ->paginate(10);
         }
 
         $data = [
@@ -141,31 +158,56 @@ class LectureController extends Controller
         $id = $request->input('id');
         $topic = Topic::find($id);
 
-
-        if ($request->ajax()) {
-            if ($topic) {
-                if ($topic->delete()) {
-                    return response()->json(
-                        [
-                            'message' => $topic->name . ' đã được xóa thành công.'
-                        ],
-                        Response::HTTP_OK
-                    );
-                } else {
-                    return response()->json(
-                        [
-                            'message' => 'Đã có lỗi xảy ra, không thể xóa niên luận'
-                        ],
-                        Response::HTTP_BAD_REQUEST
-                    );
+        if (Gate::allows('edit-topic', $topic)) {
+            if ($request->ajax()) {
+                if ($topic) {
+                    if ($topic->delete()) {
+                        return response()->json(
+                            [
+                                'message' => $topic->name . ' đã được xóa thành công.'
+                            ],
+                            Response::HTTP_OK
+                        );
+                    } else {
+                        return response()->json(
+                            [
+                                'message' => 'Đã có lỗi xảy ra, không thể xóa niên luận'
+                            ],
+                            Response::HTTP_BAD_REQUEST
+                        );
+                    }
                 }
+                return response()->json(
+                    [
+                        'message' => 'Niên luận không tồn tại'
+                    ],
+                    Response::HTTP_NOT_FOUND
+                );
             }
-            return response()->json(
-                [
-                    'message' => 'Niên luận không tồn tại'
-                ],
-                Response::HTTP_NOT_FOUND
-            );
         }
+        return back()->with('error', 'Bạn không có quyền xóa niên luận này');
+    }
+
+    public function TopicDetail(Request $request)
+    {
+        $topic_id = $request->query('id');
+        $topic = Topic::find($topic_id);
+        if($topic){
+            if (Gate::allows('edit-topic', $topic)) {
+                $students = Student::join('perform', 'students.id', '=', 'perform.student_id')
+                    ->select('students.fullName', 'students.email', 'students.id')
+                    ->where('perform.topic_id', $topic_id)->paginate(10);
+                    $data = [
+                        'topic' => $topic,
+                        'students' => $students,
+                    ];
+                return view('lecture.topicDetail.topicDetail', $data);
+            }
+            return back()->with('error', 'Bạn không thể xem chi tiết của niên luận này');
+
+        }
+        return back()->with('info', 'Niên luận không tồn tại!');
+
+        //Bổ sung cột số lượng báo cáo tiến độ đã nộp, đã nộp báo cáo chính chưa
     }
 }
