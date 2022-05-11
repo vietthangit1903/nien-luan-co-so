@@ -56,6 +56,13 @@ $(document).ready(function () {
         showConfirmCancelRegisterTopic(event.currentTarget);
     })
 
+    $(document).on('click', '.cancel_report_submission', function (event) {
+        // stop chuyen link khi nhấn vào thẻ <a>
+        event.preventDefault();
+
+        showConfirmCancelReportSubmission(event.currentTarget);
+    })
+
 });
 
 function showConfirmCancelRegisterTopic(e) {
@@ -97,9 +104,45 @@ function ajaxRegisterTopic(e) {
 
     }).fail(function (response) {
         toastr.error(response.responseJSON.message);
-     })
+    })
 
 }
+
+function showConfirmCancelReportSubmission(e) {
+    Swal.fire({
+        title: 'Bạn chắc chắn?',
+        icon: 'question',
+        html: "<p>Hủy nộp báo cáo chính của niên luận</p><p>Bạn sẽ không thể hoàn tác</p>",
+        iconColor: '#00b4d8',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: '#58bb43',
+        confirmButtonText: 'Đồng ý'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var url = $(e).prop('href');
+            var id = $(e).data('id');
+            var csrf = $(e).data('csrf');
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    id: id,
+                    _token: csrf
+                }
+            }).done(function (response) {
+                var redirect_url = $(e).data('redirect');
+                window.location.href = redirect_url;
+                //Hiện toastr message thành công
+                toastr.success(response.message);
+        
+            }).fail(function (response) {
+                toastr.error(response.responseJSON.message);
+            })
+        }
+    });
+};
 
 
 // hàm hiển thị thông báo SweetAlert xác nhận đăng xuất
@@ -151,10 +194,10 @@ function ajaxLogout(e) {
 // hàm hiển thị thông báo SweetAlert xác nhận xoá
 function showConfirm(e) {
     var text
-    if($(e).data('name'))
+    if ($(e).data('name'))
         text = "<p>Xóa <b>" + $(e).data('name') + "</b> có <b>ID = " + $(e).data('id') + "</b></p> <p>Bạn sẽ không thể hoàn tác</p>"
     else
-    text = "<p>Bạn sẽ không thể hoàn tác</p>"     
+        text = "<p>Bạn sẽ không thể hoàn tác</p>"
     Swal.fire({
         title: 'Bạn chắc chắn?',
         html: text,

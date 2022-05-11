@@ -95,6 +95,19 @@ Route::prefix('lecture')->middleware('auth:lecture')->group(function () {
     Route::post('/topic/delete', [LectureController::class, 'DeleteTopic'])->name('lecture.deleteTopic');
     Route::get('/topic/detail', [LectureController::class, 'TopicDetail'])->name('lecture.topicDetail');
 
+    Route::get('/topic/progress_report', [LectureController::class, 'GetProgressReport'])->name('lecture.progressReport');
+
+    Route::get('/topic/report', [LectureController::class, 'GetReport'])->name('lecture.report');
+    Route::get('/topic/report-download', [LectureController::class, 'DownloadReport'])->name('lecture.downloadReport');
+    
+    Route::get('/topic/evaluation', [LectureController::class, 'Evaluation'])->name('lecture.evaluation');
+    Route::post('/topic/evaluation', [LectureController::class, 'SaveEvaluation']);
+
+    Route::post('/topic/edit-evaluation', [LectureController::class, 'SaveEditEvaluation'])->name('lecture.editEvaluation');
+
+
+
+
 });
 
 // Student public route
@@ -128,7 +141,11 @@ Route::prefix('student')->middleware('auth:student')->group(function(){
     Route::post('/progress_port', [StudentController::class, 'SaveProgressReport']);
     Route::post('/progress_port/delete', [StudentController::class, 'DeleteProgressReport'])->name('student.deleteProgressReport');
 
+    Route::get('/report', [StudentController::class, 'ShowUploadReport'])->name('student.report');
+    Route::post('/upload-report', [StudentController::class, 'UploadReport'])->name('student.uploadReport');
 
+    Route::post('report/cancel-report-submission', [StudentController::class, 'CancelReportSubmission'])->name('student.cancelReportSubmission');
 
+    Route::get('/evaluation', [StudentController::class, 'GetEvaluation'])->name('student.getEvaluation');
 
 });

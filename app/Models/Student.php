@@ -34,8 +34,13 @@ class Student extends Authenticatable
         return $this->hasMany(Perform::class);
     }
 
-    public function progress_report()
+    public function progress_reports()
     {
         return $this->hasMany(ProgressReport::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

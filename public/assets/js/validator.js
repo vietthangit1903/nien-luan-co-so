@@ -178,3 +178,12 @@ Validator.maxLength = function (selector, maxValue, message = 'Giá trị không
         }
     };
 };
+
+Validator.isMarks = function (selector, message = 'Điểm nằm trong khoảng từ 0 -> 10') {
+    return {
+        selector: selector,
+        test: function (value) {
+            return (value>=0 && value<=10) ? undefined : message;
+        }
+    };
+};

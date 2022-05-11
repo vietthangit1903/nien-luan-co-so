@@ -21,9 +21,6 @@
                         <a class="delete" href="{{ route('student.deleteProgressReport') }}"
                             data-id="{{ $item->id }}" title="Xóa báo cáo tiến độ" data-csrf="{{ csrf_token() }}"
                             data-return-url="{{url()->full()}}"><i class="fa-solid fa-xmark"></i></a>
-                            {{-- Đang dừng ở xóa niên luận, đã xong
-                                Giảng viên xem được số lượng báo cáo tiến độ của từng sinh viên
-                                Giảng viên xem được từng báo cáo của sinh viên --}}
                     </td>
                 </tr>
             @endforeach

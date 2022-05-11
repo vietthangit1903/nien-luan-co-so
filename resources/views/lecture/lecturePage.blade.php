@@ -36,6 +36,15 @@
                         Danh sách niên luận
                     </a>
 
+                    @if (Session::has('isAdmin'))
+                        <a class="btn btn-primary action-btn my-2 me-2" href="{{ route('admin.home') }}">
+                            <div class="action-icon">
+                                <i class="fa-solid fa-gear"></i>
+                            </div>
+                            Trang quản lý
+                        </a></li>
+                    @endif
+
                 </div>
 
 

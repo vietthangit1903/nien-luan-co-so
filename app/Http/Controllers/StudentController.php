@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Student\ProgressReportRequest;
+use App\Http\Requests\Student\ReportRequest;
 use App\Http\Requests\Student\UpdateStudentProfileRequest;
+use App\Models\Evaluation;
 use App\Models\Perform;
 use App\Models\ProgressReport;
+use App\Models\Report;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Topic;
@@ -13,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
@@ -179,7 +183,9 @@ class StudentController extends Controller
         if (!$request->ajax()) {
             $semesters = Semester::all();
             $topics = Topic::join('perform', 'topic.id', '=', 'perform.topic_id')
-                ->select('topic.*')
+                ->leftJoin('report', 'report.student_id', '=',  'perform.student_id')
+                ->leftJoin('evaluation', 'report.id', '=',  'evaluation.report_id')
+                ->select('topic.*', 'evaluation.id as evaluation_id')
                 ->where('perform.student_id', $student_id)
                 ->where('topic.semester_id', $current_semester->id)
                 ->paginate(10);
@@ -192,7 +198,9 @@ class StudentController extends Controller
         }
         $semester_id = Semester::where('semester_no', $request->input('semester_no'))->where('semester_name', $request->input('semester_name'))->value('id');
         $topics = Topic::leftJoin('perform', 'topic.id', '=', 'perform.topic_id')
-            ->select('topic.*')
+            ->leftJoin('report', 'report.student_id', '=',  'perform.student_id')
+            ->leftJoin('evaluation', 'report.id', '=',  'evaluation.report_id')
+            ->select('topic.*', 'evaluation.id as evaluation_id')
             ->where('perform.student_id', $student_id)
             ->where('topic.semester_id', $semester_id)
             ->paginate(10);
@@ -278,5 +286,68 @@ class StudentController extends Controller
             ],
             Response::HTTP_NOT_FOUND
         );
+    }
+
+    public function ShowUploadReport(Request $request)
+    {
+        $topic_id = $request->query('topic_id');
+        $student_id = Auth::id();
+        $performed = Perform::where([['topic_id', $topic_id], ['student_id', $student_id]])->first();
+        if ($performed) {
+            $topic = Topic::find($topic_id);
+            $report = Report::where([['topic_id', $topic_id], ['student_id', $student_id]])->first();
+            if ($report)
+                return view('student.report.deleteReport', ['topic' => $topic, 'report' => $report]);
+
+            return view('student.report.uploadReport', ['topic' => $topic]);
+        }
+        return back()->with('error', 'Bạn không thể tải báo cáo cho niên luận này');
+    }
+
+    public function UploadReport(ReportRequest $request)
+    {
+        $topic_id = $request->input('topic_id');
+
+        $wordName = $request->file('wordFile')->getClientOriginalName();
+        $wordPath = $request->file('wordFile')->store('Words');
+
+        $powerPointName = $request->file('powerPointFile')->getClientOriginalName();
+        $powerPointPath = $request->file('powerPointFile')->store('PowerPoints');
+
+        $report = new Report();
+        $report->topic_id = $topic_id;
+        $report->student_id = Auth::id();
+        $report->word_name = $wordName;
+        $report->word_path = $wordPath;
+        $report->power_point_name = $powerPointName;
+        $report->power_point_path = $powerPointPath;
+        $report->save();
+        return redirect()->route('student.topicList')->with('success', 'Báo cáo đã được nộp thành công');
+    }
+
+    public function CancelReportSubmission(Request $request)
+    {
+        $report_id = $request->input('id');
+        $report = Report::find($report_id);
+        if ($report->student_id == Auth::id()) {
+            if ($report->delete()) {
+                Storage::delete([$report->word_path, $report->power_point_path]);
+                return response()->json(['message' => 'Báo cáo chính đã được hủy nộp thành công'], Response::HTTP_OK);
+            }
+            return response()->json(['message' => 'Đã có lỗi xảy ra, không thể hủy nộp niên luận'], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function GetEvaluation(Request $request)
+    {
+        $evaluation = Evaluation::find($request->query('evaluation_id'));
+        $topic = Topic::find($request->query('topic_id'));
+        if ($evaluation) {
+            $report = Report::find($evaluation->report_id);
+            if ($report->student_id != Auth::id()) {
+                return back()->with('error', 'Bạn không thể xem đánh giá này');
+            }
+        }
+        return view('student.evaluation', ['topic' => $topic, 'evaluation' => $evaluation]); 
     }
 }

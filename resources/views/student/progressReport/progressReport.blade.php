@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="button text-center">
-                        <a href="{{url()->previous()}}" class="btn btn-primary"> <i class="fa-solid fa-chevron-left"></i> Trở về </a>
+                        <a href="{{ route('student.topicList') }}" class="btn btn-primary"> <i class="fa-solid fa-list"></i> Danh sách niên luận </a>
                         <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Báo cáo tiến độ</button>
                     </div>
                 </form>

@@ -22,11 +22,23 @@
                     <th scope="row">{{ $start++ }}</th>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->fullName }}</td>
-                    <td>{{ $item->email }} sinh viên</td>
-                    <td>0 báo cáo</td>
-                    <td>Chưa nộp</td>
+                    <td>{{ $item->email }}</td>
+                    <td>{{ $item->progressReportNumber }} báo cáo</td>
                     <td>
-                        
+                        @if ($item->reportNumber != 0)
+                            {{ 'Đã nộp' }}
+                        @else
+                            {{ 'Chưa nộp' }}
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('lecture.progressReport', ['student-id' => $item->id, 'topic-id' => $topic->id]) }}"
+                            class="me-3" title="Xem báo cáo tiến độ"><i
+                                class="fa-solid fa-bars-progress"></i></a>
+                        <a href="{{ route('lecture.report', ['student-id' => $item->id, 'topic-id' => $topic->id]) }}" class="me-3" title="Xem báo cáo chính"><i class="fa-solid fa-file"></i></a>
+                        <a href="{{ route('lecture.evaluation', ['student-id' => $item->id, 'topic-id' => $topic->id]) }}" title="Đánh giá niên luận"><i class="fa-solid fa-pen-to-square"></i></a>
+
+
                     </td>
                 </tr>
             @endforeach

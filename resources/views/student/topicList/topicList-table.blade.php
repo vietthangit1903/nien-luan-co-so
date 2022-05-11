@@ -24,13 +24,16 @@
                     <td>{{ $item->lecture->fullName }}</td>
                     <td>{{ $item->lecture->email }}</td>
                     <td>{{ $item->topic_type->name }}</td>
-                    <td>Chưa có đánh giá</td>
+                    <td>{{ isset($item->evaluation_id) ? 'Đã đánh giá' : 'Chưa có đánh giá' }}</td>
                     <td>
                         @if ($item->semester_id == $current_semester->id)
-                            <a href="{{ route('student.progressReport', ['topic_id'=>$item->id]) }}" class="me-3" title="Báo cáo tiến độ"><i class="fa-solid fa-bars-progress"></i></a>
-                            <a class="me-3" href="#" title="Báo cáo chính"><i class="fa-solid fa-file"></i></a>
+                            <a href="{{ route('student.progressReport', ['topic_id' => $item->id]) }}"
+                                class="me-3" title="Báo cáo tiến độ"><i
+                                    class="fa-solid fa-bars-progress"></i></a>
+                            <a class="me-3" href="{{ route('student.report', ['topic_id' => $item->id]) }}"
+                                title="Báo cáo chính"><i class="fa-solid fa-file"></i></a>
                         @endif
-                        <a href="#" title="Xem đánh giá"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ route('student.getEvaluation', ['topic_id' => $item->id,'evaluation_id'=>$item->evaluation_id]) }}" title="Xem đánh giá"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
                 </tr>
             @endforeach
